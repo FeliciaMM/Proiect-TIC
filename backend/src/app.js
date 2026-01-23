@@ -2,6 +2,8 @@ const express = require("express")
 require('dotenv').config()
 const morgan = require("morgan")
 const db = require("./firebase") 
+const userRoutes = require('../routes/users')
+
 
 const app = express()
 app.use(express.json())
@@ -18,6 +20,8 @@ app.get('/test-db', async (req, res) => {
     res.status(500).json({ error: err.message })
   }
 })
+
+app.use('/api/users', userRoutes)
 
 app.get('/', (req, res)=>{
     res.send("Server is running!")

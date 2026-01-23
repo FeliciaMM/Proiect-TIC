@@ -1,14 +1,18 @@
 const db = require('../src/firebase')
 const users = db.collection('users')
 
-async function getAll() {
-  const snapshot = await users.get()
-  return snapshot.docs.map(d => ({ id: d.id, ...d.data() }))
-}
+async function createUser(user) {
+  const newUser = {
+    name: user.name,
+    email: user.email,
+    role: user.role || 'user',
+    createdAt: new Date()
+  }
 
-async function create(user) {
-  const ref = await users.add(user)
+  const ref = await users.add(newUser)
   return ref.id
 }
 
-module.exports = { getAll, create }
+module.exports = {
+  createUser
+}
