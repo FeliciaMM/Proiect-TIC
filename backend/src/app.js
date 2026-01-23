@@ -1,19 +1,29 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const morgan = require("morgan");
-const bodyParser = require("body-parser");
+const express = require("express")
+require('dotenv').config()
+const morgan = require("morgan")
+const db = require("./firebase") 
 
+const app = express()
+app.use(express.json())
+app.use(morgan('dev'))
 
-const app = express();
-
-app.use(bodyParser.json());
-app.use(morgan('dev'));
+app.get('/test-db', async (req, res) => {
+  try {
+    const ref = await db.collection('test').add({
+      message: 'Conexiunea funcționează',
+      createdAt: new Date()
+    })
+    res.json({ success: true, id: ref.id })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
 
 app.get('/', (req, res)=>{
     res.send("Server is running!")
 })
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000
 app.listen(PORT, ()=>{
     console.log(`Server is running on port ${PORT}`)
 })
