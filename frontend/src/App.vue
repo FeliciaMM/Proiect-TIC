@@ -1,6 +1,18 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { onMounted } from 'vue';
+import api from '@/api/axios';
 
+onMounted(async () => {
+  console.log("🚀 Încerc să contactez serverul...");
+  
+  try {
+    const response = await api.get('/movies'); 
+    
+    console.log("Răspuns primit:", response.data);
+  } catch (error) {
+    console.error(" Eroare:", error);
+  }
+});
 </script>
 
 <template>

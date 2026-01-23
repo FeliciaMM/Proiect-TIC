@@ -5,10 +5,12 @@ const db = require("./firebase")
 const userRoutes = require('../routes/users')
 const movieRoutes = require('../routes/movies')
 const reviewsRoutes = require('../routes/reviews')
+const cors = require('cors')
 
 const app = express()
 app.use(express.json())
 app.use(morgan('dev'))
+app.use(cors())
 
 app.get('/test-db', async (req, res) => {
   try {
@@ -22,9 +24,9 @@ app.get('/test-db', async (req, res) => {
   }
 })
 
-app.use('/users', userRoutes)
-app.use('/movies', movieRoutes)
-app.use('/reviews', reviewsRoutes)
+app.use('/api/users', userRoutes)
+app.use('/api/movies', movieRoutes)
+app.use('/api/reviews', reviewsRoutes)
 
 app.get('/', (req, res)=>{
     res.send("Server is running!")
