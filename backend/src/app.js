@@ -1,11 +1,11 @@
 const express = require("express");
-const cors = require("cors");
 const dotenv = require("dotenv");
-const express = require("express");
+const morgan = require("morgan");
+const bodyParser = require("body-parser");
+
 
 const app = express();
 
-const express = require("express");
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
