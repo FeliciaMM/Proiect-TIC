@@ -6,6 +6,7 @@ async function createMovie(movie) {
     name: movie.name,
     description: movie.description,
     launchDate:movie.launchDate,
+    posterUrl:movie.posterUrl,
     createdAt: new Date()
   }
 
