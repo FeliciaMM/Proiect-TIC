@@ -10,6 +10,10 @@ async function createUser({ email, password }) {
     throw new Error('Email already exists')
   }
 
+  if(!password){
+    throw new Error('You must chose a password')
+  }
+
   const hashedPassword = await bcrypt.hash(password, 10)
 
   const newUser = {

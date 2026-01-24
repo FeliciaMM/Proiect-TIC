@@ -6,6 +6,10 @@ async function create(req, res) {
     if (!name) {
       return res.status(400).json({ error: 'Name is required' })
     }
+    
+    if (rating && typeof rating !== 'number') {
+      return res.status(400).json({ error: 'Rating must be a number' })
+    }
 
     const id = await movieService.createMovie(req.body)
 

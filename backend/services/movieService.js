@@ -2,6 +2,19 @@ const db = require('../src/firebase')
 const movies = db.collection('movies')
 
 async function createMovie(movie) {
+
+  if (!movie.name || movie.name.trim() === '') {
+    throw new Error('The movie must have a name')
+  }
+
+  if (movie.launchDate && isNaN(Date.parse(movie.launchDate))) {
+    throw new Error('Invalid launch date')
+  }
+
+  if (movie.description && movie.description.length < 10) {
+    throw new Error('Description must be at least 10 characters long')
+  }
+  
   const newMovie = {
     name: movie.name,
     description: movie.description,
