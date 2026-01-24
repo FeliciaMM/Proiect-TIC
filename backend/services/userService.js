@@ -20,7 +20,11 @@ async function createUser({ email, password }) {
 
   const ref = await users.add(newUser)
 
-  const token = jwt.sign({ id: ref.id, email }, process.env.SECRET, { expiresIn: '1h' })
+  const token = jwt.sign(
+    { id: ref.id, email },
+    process.env.SECRET,
+    { expiresIn: '1h' }
+  )
 
   return { id: ref.id, token }
 }
@@ -35,7 +39,11 @@ async function loginUser({ email, password }) {
   const isMatch = await bcrypt.compare(password, user.password)
   if (!isMatch) throw new Error('Invalid credentials')
 
-  const token = jwt.sign({ id: doc.id, email }, process.env.SECRET, { expiresIn: '1h' })
+  const token = jwt.sign(
+    { id: doc.id, email },
+    process.env.SECRET,
+    { expiresIn: '1h' }
+  )
 
   return { id: doc.id, token }
 }
@@ -43,8 +51,10 @@ async function loginUser({ email, password }) {
 async function getUserById(id) {
   const doc = await users.doc(id).get()
   if (!doc.exists) return null
+
   const data = doc.data()
   delete data.password
+
   return { id: doc.id, ...data }
 }
 

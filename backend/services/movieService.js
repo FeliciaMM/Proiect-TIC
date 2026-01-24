@@ -5,8 +5,8 @@ async function createMovie(movie) {
   const newMovie = {
     name: movie.name,
     description: movie.description,
-    launchDate:movie.launchDate,
-    posterUrl:movie.posterUrl,
+    launchDate: movie.launchDate,
+    posterUrl: movie.posterUrl,
     createdAt: new Date()
   }
 
@@ -15,19 +15,17 @@ async function createMovie(movie) {
 }
 
 async function getAllMovies() {
-    const snapshot = await movies.get()
-    const list = []
-    snapshot.forEach(doc => {
-        list.push({ id: doc.id, ...doc.data() })
-    })
-    return list
+  const snapshot = await movies.get()
+  const list = []
+  snapshot.forEach(doc => {
+    list.push({ id: doc.id, ...doc.data() })
+  })
+  return list
 }
 
 async function getMovieById(id) {
   const doc = await movies.doc(id).get()
-  if (!doc.exists) {
-    return null 
-  }
+  if (!doc.exists) return null
   return { id: doc.id, ...doc.data() }
 }
 
