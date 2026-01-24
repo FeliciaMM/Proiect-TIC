@@ -1,5 +1,7 @@
 import App from '@/App.vue'
-import MovieCard from '@/components/MovieCard.vue'
+import AllMoviesPage from '@/views/AllMoviesPage.vue'
+import FirstPageView from '@/views/FirstPageView.vue'
+import MovieInfoView from '@/views/MovieInfoView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -8,15 +10,17 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: App,
+      component: FirstPageView,
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-  
+      path: '/movies',
+      name: 'allMovies',
+      component: AllMoviesPage,
+    },
+    {
+    path: '/movies/:id',
+    name: 'MovieDetails',
+    component: MovieInfoView,
     },
   ],
 })
