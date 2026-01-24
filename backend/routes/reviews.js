@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const auth = require('../middlewares/auth')
 
 const { 
   createReview, 
@@ -7,7 +8,7 @@ const {
   deleteReview 
 } = require('../services/reviewService')
 
-router.post('/', async (req, res) => {
+router.post('/',auth, async (req, res) => {
   try {
     const { title, body, userId, movieId, rating } = req.body
 
@@ -43,7 +44,7 @@ router.get('/movie/:movieId', async (req, res) => {
   }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id',auth, async (req, res) => {
   try {
     const reviewId = req.params.id
     const { userId } = req.body
