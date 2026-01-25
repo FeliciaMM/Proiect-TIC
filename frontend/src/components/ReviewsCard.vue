@@ -76,6 +76,29 @@ const saveEdit = async (reviewId) => {
   }
 }
 
+const deleteReview = async (reviewId) => {
+  if (!confirm('Are you sure you want to delete this review?')) return
+
+  try {
+    await axios.delete(
+      `http://localhost:5000/api/reviews/${reviewId}`,
+      {
+        data: {
+          userId: currentUserId
+        },
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+
+    await fetchReviews()
+  } catch (err) {
+    console.error(err)
+    alert(err.response?.data?.error || 'Failed to delete review')
+  }
+}
+
 onMounted(fetchReviews)
 watch(() => props.movieId, fetchReviews)
 </script>
@@ -93,30 +116,13 @@ watch(() => props.movieId, fetchReviews)
     <div v-else class="reviews-list">
       <div v-for="review in reviews" :key="review.id" class="review">
         <div v-if="editingReviewId === review.id" class="edit-form">
-          <input
-            v-model="editForm.title"
-            placeholder="Review title"
-          />
-
-          <textarea
-            v-model="editForm.body"
-            placeholder="Your review"
-          ></textarea>
-
-          <input
-            type="number"
-            min="1"
-            max="5"
-            v-model="editForm.rating"
-          />
+          <input v-model="editForm.title" />
+          <textarea v-model="editForm.body"></textarea>
+          <input type="number" min="1" max="5" v-model="editForm.rating" />
 
           <div class="actions">
-            <button class="save" @click="saveEdit(review.id)">
-              Save
-            </button>
-            <button class="cancel" @click="cancelEdit">
-              Cancel
-            </button>
+            <button class="save" @click="saveEdit(review.id)">Save</button>
+            <button class="cancel" @click="cancelEdit">Cancel</button>
           </div>
         </div>
 
@@ -128,13 +134,17 @@ watch(() => props.movieId, fetchReviews)
 
           <p class="body">{{ review.body }}</p>
 
-          <button
+          <div
+            class="review-actions"
             v-if="review.userId === currentUserId"
-            class="edit-btn"
-            @click="startEdit(review)"
           >
-            Edit
-          </button>
+            <button class="edit-btn" @click="startEdit(review)">
+              Edit
+            </button>
+            <button class="delete-btn" @click="deleteReview(review.id)">
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -142,101 +152,18 @@ watch(() => props.movieId, fetchReviews)
 </template>
 
 <style scoped>
-.reviews-card {
-  margin-top: 40px;
-  padding: 24px;
-  background: #1e1e1e;
-  border-radius: 10px;
-  color: white;
-}
-
-h2 {
-  margin-bottom: 16px;
-}
-
-.reviews-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.review {
-  background: #2a2a2a;
-  padding: 16px;
-  border-radius: 8px;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.rating {
-  color: #f5c518;
-  font-weight: bold;
-}
-
-.body {
-  margin: 8px 0;
-  color: #ccc;
-}
-
-.date {
-  color: #888;
-  font-size: 0.8rem;
-}
-
-.edit-btn {
+.review-actions {
   margin-top: 8px;
-  background: #444;
+  display: flex;
+  gap: 8px;
+}
+
+.delete-btn {
+  background: #a33;
   border: none;
   color: white;
   padding: 6px 10px;
   border-radius: 4px;
   cursor: pointer;
-}
-
-.edit-form input,
-.edit-form textarea {
-  width: 100%;
-  margin-bottom: 8px;
-  padding: 6px;
-  border-radius: 4px;
-  border: none;
-}
-
-.edit-form textarea {
-  resize: vertical;
-}
-
-.actions {
-  display: flex;
-  gap: 8px;
-}
-
-.save {
-  background: #4caf50;
-  border: none;
-  padding: 6px 12px;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.cancel {
-  background: #b33;
-  border: none;
-  padding: 6px 12px;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.loading,
-.error,
-.empty {
-  text-align: center;
-  color: #aaa;
 }
 </style>
