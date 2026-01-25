@@ -1,5 +1,5 @@
 <script setup>
-import { Film, Search } from 'lucide-vue-next'
+import { Film, Search, LogOut  } from 'lucide-vue-next'
 </script>
 
 <template>
@@ -15,13 +15,15 @@ import { Film, Search } from 'lucide-vue-next'
          <router-link to="/movies" class="nav-btn">Movies</router-link>
         <button class="nav-btn">Favorites</button>
         <button class="nav-btn">Random Movie</button>
-        <button class="nav-btn">Write Review</button>
       </nav>
 
       <div class="search">
         <input type="text" placeholder="Search movies..." />
         <Search class="search-icon" />
       </div>
+      <button @click="logout" class="nav-btn">
+  <LogOut :size="20" />
+</button>
     </div>
   </header>
 </template>
@@ -75,6 +77,7 @@ import { Film, Search } from 'lucide-vue-next'
   cursor: pointer;
   padding: 6px 10px;
   transition: color 0.2s;
+  text-decoration: none;
 }
 
 .nav-btn:hover {

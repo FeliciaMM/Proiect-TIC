@@ -9,7 +9,7 @@ import LoginCard from '@/components/LoginCard.vue'
       <p>Enter your credentials to log in to MovieManiac.</p>
       <LoginCard />
       <p class="redirect">
-        Don't have an account? <router-link to="/register">Register here</router-link>
+        Don't have an account? <router-link to="/registration">Register here</router-link>
       </p>
     </div>
   </div>

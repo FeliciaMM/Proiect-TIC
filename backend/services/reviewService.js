@@ -2,9 +2,14 @@ const db = require('../src/firebase')
 const reviews = db.collection('reviews')
 
 async function createReview(review) {
-
-   if (!review.title || review.title.trim() === '') {
+  if (!review.title || review.title.trim() === '') {
     throw new Error('Reviews must have a title')
+  }
+  if (!review.body || review.body.trim() === '') {
+    throw new Error('Reviews must have a body')
+  }
+  if (review.body.trim().length < 10) {
+    throw new Error('Review body must be at least 10 characters')
   }
 
   const rating = Number(review.rating)
@@ -13,15 +18,13 @@ async function createReview(review) {
   }
 
   const newReview = {
-    title: review.title,
-    body: review.body,
+    title: review.title.trim(),
+    body: review.body.trim(),
     userId: review.userId,
     movieId: review.movieId,
-    rating: Number(review.rating),
+    rating,
     createdAt: new Date()
   }
-
-
 
   const ref = await reviews.add(newReview)
   return ref.id
