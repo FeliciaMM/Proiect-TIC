@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
 
@@ -7,8 +7,11 @@ import MovieDetails from '@/components/MovieDetails.vue'
 import ReviewsCard from '@/components/ReviewsCard.vue'
 import WriteReviewForm from '@/components/WriteReviewForm.vue'
 
+import { useReviewStore } from '@/stores/reviews'
+
 const route = useRoute()
 const movie = ref(null)
+const reviewStore = useReviewStore()
 
 const fetchMovie = async () => {
   try {
@@ -20,11 +23,22 @@ const fetchMovie = async () => {
   }
 }
 
-onMounted(() => {
-  fetchMovie()
-})
+const loadPageData = async () => {
+  const id = route.params.id
+  await fetchMovie()
+  await reviewStore.fetchReviews(id) 
+}
 
+onMounted(loadPageData)
+
+watch(
+  () => route.params.id,
+  async () => {
+    await loadPageData()
+  }
+)
 </script>
+
 
 <template>
   <div v-if="movie" class="movie-info-page">

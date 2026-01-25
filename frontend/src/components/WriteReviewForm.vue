@@ -1,22 +1,16 @@
 <script setup>
-import { ref, computed } from 'vue'
-import axios from 'axios'
-import { useAuthStore } from '@/stores/auth' // ajustează path-ul după proiectul tău
+import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { useReviewStore } from '@/stores/reviews'
 
 const props = defineProps({
-  movieId: {
-    type: String,
-    required: true
-  }
+  movieId: { type: String, required: true }
 })
 
 const auth = useAuthStore()
-
-const userId = computed(() => auth.userId)
-const token = computed(() => auth.token)
+const reviewStore = useReviewStore()
 
 const hoverRating = ref(0)
-
 const title = ref('')
 const body = ref('')
 const rating = ref(5)
@@ -38,28 +32,19 @@ const submitReview = async () => {
   }
 
   try {
-    await axios.post(
-      'http://localhost:5000/api/reviews',
-      {
-        title: title.value,
-        body: body.value,
-        rating: rating.value,
-        userId: auth.userId,
-        movieId: props.movieId
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${auth.token}`
-        }
-      }
-    )
+    await reviewStore.addReview({
+      movieId: props.movieId,
+      title: title.value,
+      body: body.value,
+      rating: rating.value
+    })
 
     title.value = ''
     body.value = ''
     rating.value = 5
     success.value = true
-  } catch (err) {
-    error.value = err.response?.data?.error || 'Failed to submit review'
+  } catch (e) {
+    error.value = e.message || 'Failed to submit review'
   }
 }
 </script>

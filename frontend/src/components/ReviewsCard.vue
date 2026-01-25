@@ -1,6 +1,7 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
-import axios from 'axios'
+import { ref, computed, onMounted, watch } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { useReviewStore } from '@/stores/reviews'
 
 const props = defineProps({
   movieId: {
@@ -9,12 +10,12 @@ const props = defineProps({
   }
 })
 
-const reviews = ref([])
-const loading = ref(false)
-const error = ref(null)
+const auth = useAuthStore()
+const reviewStore = useReviewStore()
 
-const currentUserId = localStorage.getItem('userId')
-const token = localStorage.getItem('token')
+const reviews = computed(() => reviewStore.reviews)
+const loading = computed(() => reviewStore.loading)
+const error = computed(() => reviewStore.error)
 
 const editingReviewId = ref(null)
 const editForm = ref({
@@ -24,20 +25,7 @@ const editForm = ref({
 })
 
 const fetchReviews = async () => {
-  loading.value = true
-  error.value = null
-
-  try {
-    const res = await axios.get(
-      `http://localhost:5000/api/reviews/movie/${props.movieId}`
-    )
-    reviews.value = res.data
-  } catch (err) {
-    error.value = 'Failed to load reviews'
-    console.error(err)
-  } finally {
-    loading.value = false
-  }
+  await reviewStore.fetchReviews(props.movieId)
 }
 
 const startEdit = (review) => {
@@ -55,24 +43,13 @@ const cancelEdit = () => {
 
 const saveEdit = async (reviewId) => {
   try {
-    await axios.put(
-      `http://localhost:5000/api/reviews/${reviewId}`,
-      {
-        ...editForm.value,
-        userId: currentUserId
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    )
-
+    await reviewStore.updateReview(reviewId, {
+      ...editForm.value,
+      movieId: props.movieId 
+    })
     editingReviewId.value = null
-    await fetchReviews()
-  } catch (err) {
-    console.error(err)
-    alert(err.response?.data?.error || 'Failed to update review')
+  } catch (e) {
+    alert(e.message || 'Failed to update review')
   }
 }
 
@@ -80,22 +57,9 @@ const deleteReview = async (reviewId) => {
   if (!confirm('Are you sure you want to delete this review?')) return
 
   try {
-    await axios.delete(
-      `http://localhost:5000/api/reviews/${reviewId}`,
-      {
-        data: {
-          userId: currentUserId
-        },
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    )
-
-    await fetchReviews()
-  } catch (err) {
-    console.error(err)
-    alert(err.response?.data?.error || 'Failed to delete review')
+    await reviewStore.deleteReview(reviewId, props.movieId)
+  } catch (e) {
+    alert(e.message || 'Failed to delete review')
   }
 }
 
@@ -134,16 +98,9 @@ watch(() => props.movieId, fetchReviews)
 
           <p class="body">{{ review.body }}</p>
 
-          <div
-            class="review-actions"
-            v-if="review.userId === currentUserId"
-          >
-            <button class="edit-btn" @click="startEdit(review)">
-              Edit
-            </button>
-            <button class="delete-btn" @click="deleteReview(review.id)">
-              Delete
-            </button>
+          <div class="review-actions" v-if="review.userId === auth.userId">
+            <button class="edit-btn" @click="startEdit(review)">Edit</button>
+            <button class="delete-btn" @click="deleteReview(review.id)">Delete</button>
           </div>
         </div>
       </div>
