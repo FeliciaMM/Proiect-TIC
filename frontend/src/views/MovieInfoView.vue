@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 import axios from 'axios'
 
 import MovieDetails from '@/components/MovieDetails.vue'
+import ReviewsCard from '@/components/ReviewsCard.vue'
 
 const route = useRoute()
 const movie = ref(null)
@@ -27,10 +28,14 @@ onMounted(() => {
   <div v-if="movie" class="movie-info-page">
     <MovieDetails :movie="movie" />
   </div>
-
   <div v-else class="loading">
     Loading movie info...
   </div>
+  <div>
+    <ReviewsCard :movie-id="movie.id"/>
+  </div>
+
+  
 </template>
 
 <style scoped>

@@ -59,8 +59,33 @@ async function remove(req, res) {
   }
 }
 
+async function update(req, res) {
+  try {
+    const { userId } = req.body
+    await reviewService.updateReview(
+      req.params.id,
+      req.body,
+      userId
+    )
+
+    res.status(200).json({
+      success: true,
+      message: 'Review updated'
+    })
+  } catch (err) {
+    if (err.message === 'Unauthorized') {
+      return res.status(403).json({ error: 'Not allowed to edit this review' })
+    }
+    if (err.message === 'Review not found') {
+      return res.status(404).json({ error: 'Review does not exist' })
+    }
+    res.status(400).json({ error: err.message })
+  }
+}
+
 module.exports = {
   create,
   getByMovie,
-  remove
+  remove,
+  update
 }

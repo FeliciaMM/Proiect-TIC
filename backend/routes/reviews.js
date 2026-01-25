@@ -6,5 +6,7 @@ const reviewController = require('../controllers/reviewController')
 router.post('/', auth, reviewController.create)
 router.get('/movie/:movieId', reviewController.getByMovie)
 router.delete('/:id', auth, reviewController.remove)
+router.put('/:id', auth, reviewController.update)
+
 
 module.exports = router
