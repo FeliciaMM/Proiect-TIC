@@ -1,6 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import axios from 'axios'
+import { useAuthStore } from '@/stores/auth' // ajustează path-ul după proiectul tău
 
 const props = defineProps({
   movieId: {
@@ -9,10 +10,10 @@ const props = defineProps({
   }
 })
 
-const debugIds = () => {
-  console.log('movieId:', props.movieId)
-  console.log('userId:', userId)
-}
+const auth = useAuthStore()
+
+const userId = computed(() => auth.userId)
+const token = computed(() => auth.token)
 
 const hoverRating = ref(0)
 
@@ -22,12 +23,14 @@ const rating = ref(5)
 const error = ref(null)
 const success = ref(false)
 
-const userId = localStorage.getItem('userId')
-const token = localStorage.getItem('token')
-
 const submitReview = async () => {
   error.value = null
   success.value = false
+
+  if (!auth.isAuthenticated) {
+    error.value = 'Trebuie să fii logat ca să adaugi un review.'
+    return
+  }
 
   if (!title.value.trim()) {
     error.value = 'Title is required'
@@ -41,12 +44,12 @@ const submitReview = async () => {
         title: title.value,
         body: body.value,
         rating: rating.value,
-        userId,
+        userId: auth.userId,
         movieId: props.movieId
       },
       {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${auth.token}`
         }
       }
     )
@@ -55,12 +58,12 @@ const submitReview = async () => {
     body.value = ''
     rating.value = 5
     success.value = true
-
   } catch (err) {
     error.value = err.response?.data?.error || 'Failed to submit review'
   }
 }
 </script>
+
 
 <template>
   <div class="create-review">
