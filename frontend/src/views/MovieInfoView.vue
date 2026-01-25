@@ -5,6 +5,7 @@ import axios from 'axios'
 
 import MovieDetails from '@/components/MovieDetails.vue'
 import ReviewsCard from '@/components/ReviewsCard.vue'
+import WriteReviewForm from '@/components/WriteReviewForm.vue'
 
 const route = useRoute()
 const movie = ref(null)
@@ -22,19 +23,27 @@ const fetchMovie = async () => {
 onMounted(() => {
   fetchMovie()
 })
+
 </script>
 
 <template>
   <div v-if="movie" class="movie-info-page">
+    
     <MovieDetails :movie="movie" />
+
+    <div style="margin-top: 2rem;">
+       <WriteReviewForm :movie-id="movie.id" />
+    </div>
+
+    <div>
+       <ReviewsCard :movie-id="movie.id"/>
+    </div>
+    
   </div>
+
   <div v-else class="loading">
     Loading movie info...
   </div>
-  <div>
-    <ReviewsCard :movie-id="movie.id"/>
-  </div>
-
   
 </template>
 
