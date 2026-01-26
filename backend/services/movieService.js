@@ -42,8 +42,28 @@ async function getMovieById(id) {
   return { id: doc.id, ...doc.data() }
 }
 
+async function searchMoviesByName(query) {
+  const q = query.trim().toLowerCase()
+
+  const snapshot = await movies.get()
+  const results = []
+
+  snapshot.forEach(doc => {
+    const data = doc.data()
+    const name = (data.name || '').toLowerCase()
+
+    if (name.includes(q)) {
+      results.push({ id: doc.id, ...data })
+    }
+  })
+
+  return results
+}
+
+
 module.exports = {
   createMovie,
   getAllMovies,
-  getMovieById
+  getMovieById,
+  searchMoviesByName
 }

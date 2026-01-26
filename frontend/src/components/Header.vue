@@ -1,5 +1,6 @@
 <script setup>
-import { Film, Search, LogOut  } from 'lucide-vue-next'
+import { Film, LogOut  } from 'lucide-vue-next'
+import SearchBar from './SearchBar.vue';
 </script>
 
 <template>
@@ -18,8 +19,7 @@ import { Film, Search, LogOut  } from 'lucide-vue-next'
       </nav>
 
       <div class="search">
-        <input type="text" placeholder="Search movies..." />
-        <Search class="search-icon" />
+       <SearchBar />
       </div>
       <button @click="logout" class="nav-btn">
   <LogOut :size="20" />
@@ -82,34 +82,6 @@ import { Film, Search, LogOut  } from 'lucide-vue-next'
 
 .nav-btn:hover {
   color: white;
-}
-
-.search {
-  position: relative;
-}
-
-.search input {
-  background-color: #1a1a1a;
-  border: 1px solid #333;
-  border-radius: 20px;
-  padding: 6px 34px 6px 12px;
-  color: white;
-  outline: none;
-  min-width: 150px;
-}
-
-.search input::placeholder {
-  color: #777;
-}
-
-.search-icon {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
-  color: #777;
 }
 
 @media (max-width: 600px) {

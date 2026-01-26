@@ -4,6 +4,8 @@ import FirstPageView from '@/views/FirstPageView.vue'
 import LoginView from '@/views/LoginView.vue'
 import MovieInfoView from '@/views/MovieInfoView.vue'
 import RegistrationView from '@/views/RegistrationView.vue'
+import SearchResult from '@/components/SearchResult.vue'
+import { Search } from 'lucide-vue-next'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -34,6 +36,11 @@ const router = createRouter({
     name: 'LogIn',
     component: LoginView,
     },
+    {
+    path: '/search',
+    name: 'search',
+    component: SearchResult,
+  }
   ],
 })
 

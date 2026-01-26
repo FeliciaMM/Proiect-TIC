@@ -43,8 +43,24 @@ async function getById(req, res) {
   }
 }
 
+async function search(req, res) {
+  try {
+    const q = String(req.query.query || '').trim() 
+
+    if (q.length < 2) {
+      return res.status(400).json({ error: 'Query must be at least 2 characters' })
+    }
+
+    const results = await movieService.searchMoviesByName(q)
+    return res.status(200).json(results)
+  } catch (err) {
+    return res.status(500).json({ error: err.message })
+  }
+}
+
 module.exports = {
   create,
   getAll,
-  getById
+  getById,
+  search
 }
