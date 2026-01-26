@@ -60,10 +60,23 @@ async function searchMoviesByName(query) {
   return results
 }
 
+async function getRandomMovie() {
+  const snapshot = await movies.get()
+  if (snapshot.empty) return null
+
+  const docs = snapshot.docs
+  const randomIndex = Math.floor(Math.random() * docs.length)
+  const doc = docs[randomIndex]
+
+  return { id: doc.id, ...doc.data() }
+}
+
+
 
 module.exports = {
   createMovie,
   getAllMovies,
   getMovieById,
-  searchMoviesByName
+  searchMoviesByName,
+  getRandomMovie
 }

@@ -58,9 +58,20 @@ async function search(req, res) {
   }
 }
 
+async function random(req, res) {
+  try {
+    const movie = await movieService.getRandomMovie()
+    if (!movie) return res.status(404).json({ error: 'No movies found' })
+    return res.status(200).json(movie)
+  } catch (err) {
+    return res.status(500).json({ error: err.message })
+  }
+}
+
 module.exports = {
   create,
   getAll,
   getById,
-  search
+  search,
+  random
 }

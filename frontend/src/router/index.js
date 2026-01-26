@@ -1,12 +1,11 @@
-import App from '@/App.vue'
 import AllMoviesPage from '@/views/AllMoviesPage.vue'
 import FirstPageView from '@/views/FirstPageView.vue'
 import LoginView from '@/views/LoginView.vue'
 import MovieInfoView from '@/views/MovieInfoView.vue'
 import RegistrationView from '@/views/RegistrationView.vue'
 import SearchResult from '@/components/SearchResult.vue'
-import { Search } from 'lucide-vue-next'
 import { createRouter, createWebHistory } from 'vue-router'
+import RandomMovieView from '@/views/RandomMovieView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,7 +39,12 @@ const router = createRouter({
     path: '/search',
     name: 'search',
     component: SearchResult,
-  }
+    },
+    {
+    path: '/randomMovie',
+    name: 'randomMovie',
+    component: RandomMovieView,
+    }
   ],
 })
 
