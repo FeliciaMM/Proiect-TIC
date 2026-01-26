@@ -83,17 +83,39 @@ const login = async () => {
 </template>
 
 <style scoped>
-.auth-form { display:flex; flex-direction:column; gap:12px; }
+.auth-form { 
+  display:flex; 
+  flex-direction:column; 
+  gap:12px;  
+}
 .auth-form input {
-  padding:10px 12px; border-radius:6px; border:1px solid #333;
-  background:#1a1a1a; color:white; outline:none;
+  padding:10px 12px; 
+  border-radius:6px; 
+  border:1px solid #333;
+  background:#1a1a1a; 
+  color:white; 
+  outline:none;
 }
-.invalid { border-color:#ff4d4d; }
-.error { color:#ff8080; }
-.error-box { background:#2a0f0f; border:1px solid #ff4d4d; padding:10px; border-radius:6px; color:white; }
+.invalid { 
+  border-color:#ff4d4d; 
+}
+.error { 
+  color:#ff8080; 
+}
+.error-box { 
+  background:#2a0f0f; 
+  border:1px solid #ff4d4d; 
+  padding:10px; 
+  border-radius:6px; 
+  color:white; }
+
 .auth-form button {
-  padding:10px; border-radius:6px; border:none; background:#3f51b5;
-  color:white; font-weight:bold; cursor:pointer;
+  padding:10px; 
+  border-radius:6px; 
+  border:none; 
+  background:#3f51b5;
+  color:white; 
+  font-weight:bold; 
+  cursor:pointer;
 }
-.auth-form button:disabled { opacity:0.6; cursor:not-allowed; }
 </style>

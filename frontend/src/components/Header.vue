@@ -24,9 +24,8 @@ const logout = () => {
       <nav class="nav">
         <router-link v-if="!auth.isAuthenticated" to="/login" class="nav-btn">Log in</router-link>
         <router-link v-if="!auth.isAuthenticated" to="/registration" class="nav-btn">Register</router-link>
-        <router-link v-if="auth.isAuthenticated" to="/" class="nav-btn">Home</router-link>
+        <router-link to="/" class="nav-btn">Home</router-link>
         <router-link to="/movies" class="nav-btn">Movies</router-link>
-        <button v-if="auth.isAuthenticated" class="nav-btn">Favorites</button>
         <router-link v-if="auth.isAuthenticated" to="/randomMovie" class="nav-btn">Random Movie</router-link>
       </nav>
 

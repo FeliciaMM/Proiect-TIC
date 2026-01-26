@@ -12,7 +12,7 @@ defineProps({
     <img :src="movie.posterUrl" alt="Movie Poster" class="poster" />
 
     <div class="details">
-      <router-link :to="`/movies/${movie.id}`" class="nav-btn">{{ movie.name }}</router-link>
+      <router-link :to="`/movies/${movie.id}`" class="nav-btn" id="movie-name">{{ movie.name }}</router-link>
       <p class="description">{{ movie.description }}</p>
       <p class="launch-date">Released: {{ movie.launchDate }}</p>
     </div>
@@ -61,6 +61,13 @@ defineProps({
 .launch-date {
   font-size: 12px;
   color: #888;
+}
+
+#movie-name{
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  font-size: larger;
 }
 
 @media (max-width: 600px) {

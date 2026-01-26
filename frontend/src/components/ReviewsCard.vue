@@ -109,18 +109,123 @@ watch(() => props.movieId, fetchReviews)
 </template>
 
 <style scoped>
+.reviews-card {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 10px;
+  color: white;
+}
+
+.reviews-card h2 {
+  margin: 0 0 12px 0;
+}
+
+.loading,
+.empty {
+  padding: 12px;
+  background: #222;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: #bbb;
+}
+
+.error {
+  padding: 12px;
+  background: #2a0f0f;
+  border: 1px solid #ff4d4d;
+  border-radius: 8px;
+  color: #ffd1d1;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.review {
+  padding: 12px;
+  background: #222;
+  border: 1px solid #333;
+  border-radius: 8px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.header h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.rating {
+  white-space: nowrap;
+  color: #f5c518;
+  font-size: 0.9rem;
+}
+
+.body {
+  margin: 8px 0 0 0;
+  color: #ccc;
+  line-height: 1.4;
+}
+
 .review-actions {
-  margin-top: 8px;
+  margin-top: 10px;
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
+}
+
+.edit-btn,
+.delete-btn,
+.save,
+.cancel {
+  border: none;
+  border-radius: 6px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-weight: 600;
+  color: white;
+}
+
+.edit-btn {
+  background: #7110c6;
 }
 
 .delete-btn {
   background: #a33;
-  border: none;
-  color: white;
-  padding: 6px 10px;
-  border-radius: 4px;
-  cursor: pointer;
 }
+
+.edit-form input,
+.edit-form textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background: #1a1a1a;
+  color: white;
+  outline: none;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 480px) {
+  .header {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
 </style>
