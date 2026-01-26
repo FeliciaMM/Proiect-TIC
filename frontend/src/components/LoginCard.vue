@@ -2,8 +2,10 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()
+const auth = useAuthStore()
 
 const email = ref('')
 const password = ref('')
@@ -40,8 +42,7 @@ const login = async () => {
       email: email.value.trim().toLowerCase(),
       password: password.value
     })
-    localStorage.setItem('token', res.data.token)
-    localStorage.setItem('userId', res.data.id)
+     auth.login({ userId: res.data.id, token: res.data.token })
     router.push('/')
   } catch (err) {
     serverError.value = err.response?.data?.error || 'Login failed'

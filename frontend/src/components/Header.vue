@@ -1,6 +1,16 @@
 <script setup>
-import { Film, LogOut  } from 'lucide-vue-next'
-import SearchBar from './SearchBar.vue';
+import { Film, LogOut } from 'lucide-vue-next'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import SearchBar from './SearchBar.vue'
+
+const router = useRouter()
+const auth = useAuthStore()
+
+const logout = () => {
+  auth.logout()
+  router.push('/login')
+}
 </script>
 
 <template>
@@ -12,21 +22,25 @@ import SearchBar from './SearchBar.vue';
 
     <div class="bottom">
       <nav class="nav">
-         <router-link to="/" class="nav-btn">Home</router-link>
-         <router-link to="/movies" class="nav-btn">Movies</router-link>
-        <button class="nav-btn">Favorites</button>
-        <button class="nav-btn">Random Movie</button>
+        <router-link v-if="!auth.isAuthenticated" to="/login" class="nav-btn">Log in</router-link>
+        <router-link v-if="!auth.isAuthenticated" to="/registration" class="nav-btn">Register</router-link>
+        <router-link v-if="auth.isAuthenticated" to="/" class="nav-btn">Home</router-link>
+        <router-link to="/movies" class="nav-btn">Movies</router-link>
+        <button v-if="auth.isAuthenticated" class="nav-btn">Favorites</button>
+        <button v-if="auth.isAuthenticated" class="nav-btn">Random Movie</button>
       </nav>
 
       <div class="search">
-       <SearchBar />
+        <SearchBar />
       </div>
-      <button @click="logout" class="nav-btn">
-  <LogOut :size="20" />
-</button>
+
+      <button v-if="auth.isAuthenticated" @click="logout" class="nav-btn">
+        <LogOut :size="20" />
+      </button>
     </div>
   </header>
 </template>
+
 
 <style scoped>
 .header {
