@@ -129,17 +129,46 @@ const submitReview = async () => {
 </template>
 
 <style scoped>
-.create-review { margin-top:32px; padding:24px; background:#1e1e1e; border-radius:10px; color:white; }
-form { display:flex; flex-direction:column; gap:12px; font-family: system-ui; }
+.create-review { 
+  margin-top:32px; 
+  padding:24px; 
+  background:#1e1e1e; 
+  border-radius:10px; 
+  color:white; 
+}
+
+form { 
+  display:flex; 
+  flex-direction:column; 
+  gap:12px; 
+  font-family: system-ui; 
+}
 
 input, textarea {
-  padding:10px; border-radius:6px; border:1px solid transparent;
-  background:#2a2a2a; color:white;
+  padding:10px; 
+  border-radius:6px; 
+  border:1px solid transparent;
+  background:#2a2a2a; 
+  color:white;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
-.invalid { border-color:#ff4d4d; }
+.invalid { 
+  border-color:#ff4d4d; 
+}
 
-button { padding:10px; background:#f5c518; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
-button:disabled { opacity:0.6; cursor:not-allowed; }
+button { 
+  padding:10px; 
+  background:#f5c518; 
+  border:none; 
+  border-radius:6px; 
+  cursor:pointer; 
+  font-weight:bold; 
+}
+
+button:disabled { 
+  opacity:0.6; 
+  cursor:not-allowed; 
+}
 
 .error { color:#ff6b6b; margin-top:6px; }
 .success { color:#4caf50; margin-top:10px; }

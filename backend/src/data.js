@@ -6,7 +6,7 @@ const generateMovies = (count = 20) => {
   for (let i = 0; i < count; i++) {
     movies.push({
       name: faker.music.songName() , 
-      description: faker.lorem.paragraph(5),
+      description: faker.lorem.paragraph(10),
       rating: faker.number.float({ min: 1, max: 5, precision: 0.1 }), 
       launchDate: faker.date.past({ years: 20 }).toISOString().split('T')[0],
       posterUrl: faker.image.url({ width: 300, height: 450 }),

@@ -45,8 +45,7 @@ const register = async () => {
       email: email.value.trim().toLowerCase(),
       password: password.value
     })
-    localStorage.setItem('token', res.data.token)
-    router.push('/')
+    router.push('/login')
   } catch (err) {
     serverError.value = err.response?.data?.error || 'Registration failed'
   } finally {
