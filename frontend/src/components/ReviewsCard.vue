@@ -25,7 +25,7 @@ const editForm = ref({
 })
 
 const fetchReviews = async () => {
-  await reviewStore.fetchReviews(props.movieId)
+  await reviewStore.fetchReviews(props.movieId) 
 }
 
 const startEdit = (review) => {
@@ -63,6 +63,7 @@ const deleteReview = async (reviewId) => {
   }
 }
 
+
 onMounted(fetchReviews)
 watch(() => props.movieId, fetchReviews)
 </script>
@@ -78,10 +79,10 @@ watch(() => props.movieId, fetchReviews)
     </div>
 
     <div v-else class="reviews-list">
-      <div v-for="review in reviews" :key="review.id" class="review">
+      <div v-for="review in reviews" :key="review.id" class="review">       
         <div v-if="editingReviewId === review.id" class="edit-form">
-          <input v-model="editForm.title" />
-          <textarea v-model="editForm.body"></textarea>
+          <input v-model="editForm.title" placeholder="Titlu review" />
+          <textarea v-model="editForm.body" placeholder="Scrie părerea ta..."></textarea>
           <input type="number" min="1" max="5" v-model="editForm.rating" />
 
           <div class="actions">
@@ -98,17 +99,23 @@ watch(() => props.movieId, fetchReviews)
 
           <p class="body">{{ review.body }}</p>
 
-          <div class="review-actions" v-if="review.userId === auth.userId">
+          <div class="review-actions">
             <button class="edit-btn" @click="startEdit(review)">Edit</button>
             <button class="delete-btn" @click="deleteReview(review.id)">Delete</button>
           </div>
         </div>
+
       </div>
-    </div>
+    </div>  
   </div>
 </template>
 
 <style scoped>
+
+
+.span{
+  color:red;
+}
 .reviews-card {
   max-width: 900px;
   margin: 0 auto;
