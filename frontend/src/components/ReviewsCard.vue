@@ -99,7 +99,7 @@ watch(() => props.movieId, fetchReviews)
 
           <p class="body">{{ review.body }}</p>
 
-          <div class="review-actions">
+          <div class="review-actions" v-if="auth.userId && auth.userId === review.userId">
             <button class="edit-btn" @click="startEdit(review)">Edit</button>
             <button class="delete-btn" @click="deleteReview(review.id)">Delete</button>
           </div>
